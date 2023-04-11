@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+#
+# Download the latest Temporal Helm charts and overwrite the existing copy.
+
+echo "Updating Temporal Helm Charts..."
+
+# Download the repo
+REPO_URL="git@github.com:temporalio/helm-charts.git"
+REPO_DIR="helm-charts"
+TEMP_DIR=$(mktemp -d)
+
+git clone "$REPO_URL" "$TEMP_DIR/$REPO_DIR"
+
+# Copy the contents to the local folder
+TARGET_DIR="./charts/temporal"
+rm -rf "$TARGET_DIR"
+mkdir -p "$TARGET_DIR"
+cp -R "$TEMP_DIR/$REPO_DIR"/* "$TARGET_DIR"
+
+# Clean up
+rm -rf "$TEMP_DIR"
+
+echo "Temporal Helm Charts updated successfully!"
